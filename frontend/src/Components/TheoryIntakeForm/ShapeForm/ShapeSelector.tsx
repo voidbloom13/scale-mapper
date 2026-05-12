@@ -34,12 +34,22 @@ const ShapeSelector = () => {
 
     useEffect(() => {
         if (filteredShapeOptions.length > 0) {
-            const isValid = filteredShapeOptions.some((s) => s.id === shape);
+            const isValid = filteredShapeOptions.some((s) => s.id === shape.id);
             if (!isValid) {
-                setShape(filteredShapeOptions[0].id);
+                setShape(filteredShapeOptions[0]);
             }
         }
     }, [mode, filter, filteredShapeOptions, setShape, shape]);
+
+    const updateShape = (shapeID: string) => {
+        let shapeObj: Scale | Chord;
+        if (mode === "scale") {
+            shapeObj = scales.find((x) => x.id === shapeID)!;
+        } else {
+            shapeObj = chords.find((x) => x.id === shapeID)!;
+        }
+        setShape(shapeObj);
+    };
 
     return (
         <div className="flex flex-col items-center justify-center w-full">
@@ -47,8 +57,8 @@ const ShapeSelector = () => {
             <select
                 className="capitalize border w-8/10 text-center"
                 id="shape-selector"
-                onChange={(e) => setShape(e.target.value)}
-                value={shape}
+                onChange={(e) => updateShape(e.target.value)}
+                value={shape.id}
             >
                 {filteredShapeOptions.map((shape: Scale | Chord) => (
                     <option
@@ -56,7 +66,7 @@ const ShapeSelector = () => {
                         key={shape.id}
                         value={shape.id}
                     >
-                        {shape.id}
+                        {shape.label}
                     </option>
                 ))}
             </select>

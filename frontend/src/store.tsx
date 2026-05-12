@@ -28,12 +28,12 @@ export const useModeStore = create<ModeState>()((set) => ({
 }));
 
 interface ShapeState {
-    shape: string;
-    setShape: (shape: string) => void;
+    shape: Scale | Chord;
+    setShape: (shape: Scale | Chord) => void;
 }
 
 export const useShapeStore = create<ShapeState>()((set) => ({
-    shape: scales[0].id,
+    shape: scales[0],
     setShape: (shape) => set(() => ({ shape })),
 }));
 
@@ -45,4 +45,14 @@ interface ShapeFilterState {
 export const useShapeFilterStore = create<ShapeFilterState>()((set) => ({
     filter: "",
     setFilter: (filter) => set(() => ({ filter })),
+}));
+
+interface ScaleDegreeState {
+    degree: number;
+    setDegree: (degree: number) => void;
+}
+
+export const useScaleDegreeStore = create<ScaleDegreeState>()((set) => ({
+    degree: 1,
+    setDegree: (degree) => set(() => ({ degree })),
 }));
