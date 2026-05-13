@@ -32,6 +32,7 @@ export const generateIntervalsAndNotes = (
     shape: Theory.ShapeId,
     mode: "scale" | "chord",
     degree: number, // starting at position 1, not index 0.
+    displaySeventh: boolean,
 ): ScaleNote[] => {
     const rootPitchClass: number = pitchClassOfNote(root);
     let shapeCompositionIntervals: Theory.IntervalToken[];
@@ -63,7 +64,6 @@ export const generateIntervalsAndNotes = (
         const activeInterval: Theory.IntervalToken =
             shapeCompositionIntervals[i];
         const activeSemitone: Theory.SemitoneValue =
-            // Theory.intervalMap[shapeCompositionIntervals[i]] + rootPitchClass;
             Theory.intervalMap[activeInterval] + rootPitchClass;
 
         const activeNote: Theory.NoteToken = noteOfPitchClass(activeSemitone);
@@ -75,6 +75,7 @@ export const generateIntervalsAndNotes = (
         const intervalNumberModulo: number = ((intervalNumber - 1) % 7) + 1; // simplifies to 1-7
         const relativeIntervalModulo: number =
             ((((intervalNumberModulo - degree) % 7) + 7) % 7) + 1;
+
         switch (relativeIntervalModulo) {
             case 1:
                 noteRank = "Root";
@@ -86,7 +87,7 @@ export const generateIntervalsAndNotes = (
                 noteRank = "Fifth";
                 break;
             case 7:
-                noteRank = "Seventh";
+                noteRank = displaySeventh ? "Seventh" : "Passing";
                 break;
             case 2:
             case 4:
@@ -110,11 +111,13 @@ export const generateIntervalsAndNotes = (
     return activeScale;
 };
 
-export const generateChordNotation = (scale: Theory.Scale): string[] => {
-    // m3 -> minor (lowercase)
-    // M3 -> Major (UPPERCASE)
-    // d5 -> dim (o)
-    // a5 -> aug (+)
+export const generateChordNotation = (
+    scale: Theory.Scale,
+    displaySeventh: boolean,
+): string[] => {
+    const diminished: "°" = "°";
+    const halfDiminished: "ø" = "ø";
+    const augmented: "+" = "+";
     const romanNumerals: string[] = [
         "I",
         "II",
@@ -128,39 +131,41 @@ export const generateChordNotation = (scale: Theory.Scale): string[] => {
         "X",
         "XI",
     ];
+
     let chordNotationArray: string[] = [];
     for (let i = 0; i < scale.composition.length; i++) {
-        // calculate the difference in semitones between scale.composition[i] and scale.composition[(i + 3) % scale.composition.length];
-        // calculate the difference in semitones between scale.composition[i] and scale.composition[(i + 5) % scale.composition.length];
-        // if [i+3 - i] === 3, minor
-        // if [i+3 - i] === 4, MAJOR
-        // if [i+5 - i] === 6, °
-        // if [i+5 - i] === 7, normal
-        // if [i+5 - i] === 8, +
-        let chordNotation: string = "";
+        let chordNotation: string = romanNumerals[i];
         let root: Theory.IntervalToken = scale.composition[i];
         let third: Theory.IntervalToken =
             scale.composition[(i + 2) % scale.composition.length];
         let fifth: Theory.IntervalToken =
             scale.composition[(i + 4) % scale.composition.length];
+        let seventh: Theory.IntervalToken =
+            scale.composition[(i + 6) % scale.composition.length];
 
         const thirdInterval: number =
             (semitoneOfInterval(third) - semitoneOfInterval(root) + 12) % 12;
         const fifthInterval: number =
             (semitoneOfInterval(fifth) - semitoneOfInterval(root) + 12) % 12;
+        const seventhInterval: number =
+            (semitoneOfInterval(seventh) - semitoneOfInterval(root) + 12) % 12;
+
+        let thirdQuality: "sus2" | "minor" | "major" | "sus4";
+        let fifthQuality: "diminished" | "perfect" | "augmented";
+        let seventhQuality: "diminished" | "minor" | "major";
 
         switch (thirdInterval) {
             case 2:
-                chordNotation += romanNumerals[i] + "sus2";
+                thirdQuality = "sus2";
                 break;
             case 3:
-                chordNotation += romanNumerals[i].toLowerCase();
+                thirdQuality = "minor";
                 break;
             case 4:
-                chordNotation += romanNumerals[i].toUpperCase();
+                thirdQuality = "major";
                 break;
             case 5:
-                chordNotation += romanNumerals[i] + "sus4";
+                thirdQuality = "sus4";
                 break;
             default:
                 throw new Error("Interval not found.");
@@ -168,17 +173,87 @@ export const generateChordNotation = (scale: Theory.Scale): string[] => {
 
         switch (fifthInterval) {
             case 6:
-                chordNotation += "°";
+                fifthQuality = "diminished";
                 break;
             case 7:
-                // normal
+                fifthQuality = "perfect";
                 break;
             case 8:
-                chordNotation += "+";
+                fifthQuality = "augmented";
                 break;
             default:
                 throw new Error("Interval not found.");
         }
+
+        switch (seventhInterval) {
+            case 9:
+                seventhQuality = "diminished";
+                break;
+            case 10:
+                seventhQuality = "minor";
+                break;
+            case 11:
+                seventhQuality = "major";
+                break;
+            default:
+                throw new Error("Interval not found.");
+        }
+
+        if (thirdQuality === "minor") {
+            chordNotation = chordNotation.toLowerCase();
+        }
+
+        if (displaySeventh) {
+            switch (true) {
+                case fifthQuality === "diminished" &&
+                    seventhQuality === "diminished":
+                    chordNotation += diminished + "7";
+                    break;
+                case fifthQuality === "diminished" &&
+                    seventhQuality === "minor":
+                    chordNotation += halfDiminished + "7";
+                    break;
+                case fifthQuality === "diminished" &&
+                    seventhQuality === "major":
+                    chordNotation += diminished + "maj7";
+                    break;
+                case (fifthQuality === "perfect" &&
+                    seventhQuality === "diminished") ||
+                    (fifthQuality === "perfect" && seventhQuality === "minor"):
+                    chordNotation += "7";
+                    break;
+                case fifthQuality === "perfect" && seventhQuality === "major":
+                    chordNotation += "maj7";
+                    break;
+                case (fifthQuality === "augmented" &&
+                    seventhQuality === "diminished") ||
+                    (fifthQuality === "augmented" &&
+                        seventhQuality === "minor"):
+                    chordNotation += augmented + "7";
+                    break;
+                case fifthQuality === "augmented" && seventhQuality === "major":
+                    chordNotation += augmented + "maj7";
+                    break;
+                default:
+                    throw new Error("Chord Notation not found.");
+            }
+        }
+
+        if (!displaySeventh) {
+            switch (true) {
+                case thirdQuality === "minor" && fifthQuality === "diminished":
+                    chordNotation += diminished;
+                    break;
+                case thirdQuality === "major" && fifthQuality === "augmented":
+                    chordNotation += augmented;
+                    break;
+            }
+        }
+
+        if (thirdQuality === "sus2" || thirdQuality === "sus4") {
+            chordNotation += thirdQuality;
+        }
+
         chordNotationArray[i] = chordNotation;
     }
     return chordNotationArray;

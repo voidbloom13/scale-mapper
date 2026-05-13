@@ -52,10 +52,15 @@ const ShapeSelector = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center w-full">
-            <label htmlFor="shape-selector">Shape</label>
+        <div className="flex flex-row items-center justify-center gap-4 w-full">
+            <label
+                className="capitalize text-center text-2xl font-serif tracking-wide text-zinc-200 font-bold"
+                htmlFor="shape-selector"
+            >
+                {mode}
+            </label>
             <select
-                className="capitalize border w-8/10 text-center"
+                className="w-8/10 px-2 outline-0 text-zinc-200 bg-linear-to-b from-zinc-500 via-zinc-700 to-zinc-400 active:from-zinc-300 active:via-zinc-50 active:to-zinc-400 active:text-zinc-800 shadow-[-1px_-2px_3px_rgba(0,0,0,0.6),2px_2px_3px_rgba(255,255,255,0.2)] rounded-full capitalize cursor-pointer border-none text-center truncate"
                 id="shape-selector"
                 onChange={(e) => updateShape(e.target.value)}
                 value={shape.id}

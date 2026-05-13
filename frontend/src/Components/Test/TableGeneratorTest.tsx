@@ -7,6 +7,7 @@ import {
     useModeStore as ModeStore,
     useShapeStore as ShapeStore,
     useScaleDegreeStore as ScaleDegreeStore,
+    useDisplaySeventhStore as DisplaySeventhStore,
 } from "../../store";
 
 const TableGeneratorTest = () => {
@@ -14,12 +15,14 @@ const TableGeneratorTest = () => {
     const mode = ModeStore((state) => state.mode);
     const shape = ShapeStore((state) => state.shape);
     const degree = ScaleDegreeStore((state) => state.degree);
+    const displaySeventh = DisplaySeventhStore((state) => state.displaySeventh);
 
     const intervalsAndNotes = generateIntervalsAndNotes(
         root,
         shape.id,
         mode,
         degree,
+        displaySeventh,
     );
 
     type NoteRank = ScaleNote["noteRank"];

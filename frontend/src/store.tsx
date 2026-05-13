@@ -47,12 +47,29 @@ export const useShapeFilterStore = create<ShapeFilterState>()((set) => ({
     setFilter: (filter) => set(() => ({ filter })),
 }));
 
-interface ScaleDegreeState {
-    degree: number;
+const initialScaleDegreeState = {
+    degree: 1,
+};
+type ScaleDegreeState = typeof initialScaleDegreeState;
+type ScaleDegreeActions = {
     setDegree: (degree: number) => void;
+    reset: () => void;
+};
+
+export const useScaleDegreeStore = create<
+    ScaleDegreeState & ScaleDegreeActions
+>()((set) => ({
+    ...initialScaleDegreeState,
+    setDegree: (degree) => set(() => ({ degree })),
+    reset: () => set(initialScaleDegreeState),
+}));
+
+interface DisplaySeventhState {
+    displaySeventh: boolean;
+    setDisplaySeventh: (displaySeventh: boolean) => void;
 }
 
-export const useScaleDegreeStore = create<ScaleDegreeState>()((set) => ({
-    degree: 1,
-    setDegree: (degree) => set(() => ({ degree })),
+export const useDisplaySeventhStore = create<DisplaySeventhState>()((set) => ({
+    displaySeventh: true,
+    setDisplaySeventh: (displaySeventh) => set(() => ({ displaySeventh })),
 }));

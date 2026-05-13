@@ -7,9 +7,14 @@ const RootSelector = () => {
     const setRoot = RootStore((state) => state.setRoot);
     return (
         <div className="flex flex-col items-center justify-center w-full">
-            <label htmlFor="root-selector">Root</label>
+            <label
+                htmlFor="root-selector"
+                className="text-center text-2xl font-serif tracking-wide text-zinc-200 font-bold"
+            >
+                Root
+            </label>
             <select
-                className="capitalize border w-8/10 text-center"
+                className="px-2 outline-0 text-zinc-200 bg-linear-to-b from-zinc-500 via-zinc-700 to-zinc-400 active:from-zinc-300 active:via-zinc-50 active:to-zinc-400 active:text-zinc-800 shadow-[-1px_-2px_3px_rgba(0,0,0,0.6),2px_2px_3px_rgba(255,255,255,0.2)] rounded-full capitalize cursor-pointer border text-center truncate border-none"
                 id="root-selector"
                 defaultValue={root}
                 onChange={(e) => setRoot(e.target.value)}

@@ -1,0 +1,34 @@
+import {
+    useModeStore as ModeStore,
+    useScaleDegreeStore as ScaleDegreeStore,
+    useDisplaySeventhStore as DisplaySeventhStore,
+} from "../../../store";
+
+const ModeSelector = () => {
+    const mode = ModeStore((state) => state.mode);
+    const setMode = ModeStore((state) => state.setMode);
+    const resetScaleDegree = ScaleDegreeStore((state) => state.reset);
+    const setDisplaySeventh = DisplaySeventhStore(
+        (state) => state.setDisplaySeventh,
+    );
+    const toggleMode = (): void => {
+        setMode(mode === "scale" ? "chord" : "scale");
+        resetScaleDegree();
+        setDisplaySeventh(true);
+    };
+
+    return (
+        <div className="flex flex-col items-center justify-center w-full">
+            <label htmlFor="mode-selector">Mode</label>
+            <div
+                className="capitalize cursor-pointer border w-8/10 text-center"
+                id="mode-selector"
+                onClick={() => toggleMode()}
+            >
+                {mode}
+            </div>
+        </div>
+    );
+};
+
+export default ModeSelector;

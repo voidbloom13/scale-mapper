@@ -1,52 +1,3 @@
-export type IntervalToken =
-    | "R1"
-    | "d2"
-    | "A1"
-    | "m2"
-    | "M2"
-    | "d3"
-    | "A2"
-    | "m3"
-    | "M3"
-    | "d4"
-    | "A3"
-    | "P4"
-    | "A4"
-    | "d5"
-    | "P5"
-    | "d6"
-    | "A5"
-    | "m6"
-    | "M6"
-    | "d7"
-    | "A6"
-    | "m7"
-    | "M7"
-    | "P8"
-    | "d9"
-    | "A8"
-    | "m9"
-    | "M9"
-    | "d10"
-    | "A9"
-    | "m10"
-    | "M10"
-    | "d11"
-    | "A10"
-    | "P11"
-    | "A11"
-    | "d12"
-    | "P12"
-    | "d13"
-    | "A12"
-    | "m13"
-    | "M13"
-    | "d14"
-    | "A13"
-    | "m14"
-    | "M14"
-    | "P15";
-
 export const noteMap: string[] = [
     "C",
     "C#/Db",
@@ -66,7 +17,7 @@ export type NoteToken = (typeof noteMap)[number];
 
 // Duplicate semitone values allowed to distinguish between different intervals
 // ex: Major 3rd and Diminished 4th are both 4 semitones
-export const intervalMap: Record<IntervalToken, number> = {
+export const intervalMap: Record<string, number> = {
     R1: 0,
     d2: 0,
     A1: 1,
@@ -115,8 +66,8 @@ export const intervalMap: Record<IntervalToken, number> = {
     M14: 23,
     P15: 24,
 } as const;
-export type IntervalKey = keyof typeof intervalMap;
-export type SemitoneValue = (typeof intervalMap)[IntervalKey];
+export type IntervalToken = keyof typeof intervalMap;
+export type SemitoneValue = (typeof intervalMap)[IntervalToken];
 
 export interface Scale {
     id: string;
