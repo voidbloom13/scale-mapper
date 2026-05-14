@@ -60,18 +60,18 @@ const ShapeSelector = () => {
                 {mode}
             </label>
             <select
-                className="w-8/10 px-2 outline-0 text-zinc-200 bg-linear-to-b from-zinc-500 via-zinc-700 to-zinc-400 active:from-zinc-300 active:via-zinc-50 active:to-zinc-400 active:text-zinc-800 shadow-[-1px_-2px_3px_rgba(0,0,0,0.6),2px_2px_3px_rgba(255,255,255,0.2)] rounded-full capitalize cursor-pointer border-none text-center truncate"
+                className="w-8/10 p-1 rounded-sm font-orbitron font-bold tracking-wider bg-green-950 text-green-400 text-shadow-xs text-shadow-green-600 truncate"
                 id="shape-selector"
                 onChange={(e) => updateShape(e.target.value)}
                 value={shape.id}
             >
                 {filteredShapeOptions.map((shape: Scale | Chord) => (
                     <option
-                        className="capitalize"
+                        className="font-share-tech-mono"
                         key={shape.id}
                         value={shape.id}
                     >
-                        {shape.label}
+                        {shape.label.toUpperCase()}
                     </option>
                 ))}
             </select>

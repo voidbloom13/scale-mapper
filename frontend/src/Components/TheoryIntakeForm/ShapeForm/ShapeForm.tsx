@@ -4,8 +4,8 @@ import ShapeSelector from "./ShapeSelector";
 const ShapeForm = () => {
     return (
         <div className="flex flex-row justify-between gap-2">
-            <ShapeSelector />
             <ShapeFilter />
+            <ShapeSelector />
         </div>
     );
 };

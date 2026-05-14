@@ -31,7 +31,7 @@ const ModeSelector = () => {
     const chordLabel = mode === "chord" ? "text-zinc-50" : "text-zinc-400";
 
     return (
-        <div className="flex flex-col items-center justify-center w-full">
+        <div className="flex flex-row md:flex-col gap-4 items-center justify-between md:justify-evenly w-full">
             <label
                 htmlFor="mode-selector"
                 className="text-center text-2xl font-serif tracking-wide text-zinc-200 font-bold"

@@ -3,9 +3,9 @@ import ModeSelector from "./ModeSelector";
 
 const TheoryForm = () => {
     return (
-        <div className="flex justify-between">
-            <RootSelector />
+        <div className="flex flex-col md:flex-row justify-center">
             <ModeSelector />
+            <RootSelector />
         </div>
     );
 };

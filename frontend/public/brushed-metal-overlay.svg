@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="linearRGB">
+      <!-- Horizontal brush grain -->
+      <feTurbulence type="fractalNoise" baseFrequency="0.9 0.013" numOctaves="5" seed="42" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
+      <!-- Fine scratch lines -->
+      <feTurbulence type="turbulence" baseFrequency="0.025 0.7" numOctaves="6" seed="17" result="scratches"/>
+      <feColorMatrix type="matrix"
+        values="0 0 0 0 1
+                0 0 0 0 1
+                0 0 0 0 1
+                0 0 0 -5 3.8"
+        in="scratches" result="scratchMask"/>
+      <feBlend in="gray" in2="scratchMask" mode="screen" result="combined"/>
+      <!-- Sharpen the grain -->
+      <feConvolveMatrix order="3" kernelMatrix="0 -0.4 0 -0.4 2.6 -0.4 0 -0.4 0" in="combined" result="sharp"/>
+      <feComponentTransfer in="sharp">
+        <feFuncA type="linear" slope="0.28"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+
+  <!-- Transparent base — the filter renders grain as semi-opaque white/black marks -->
+  <rect width="400" height="400" fill="white" filter="url(#grain)"/>
+</svg>
