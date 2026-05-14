@@ -7,7 +7,7 @@
 }
 
 :root {
-    background-image: linear-gradient(#080010, #2f0038);
+    background: linear-gradient(180deg, #080010 0%, #2f0038 100%);
     min-height: 100vh;
 }
 
@@ -20,7 +20,7 @@ body::before {
     height: 100%;
     background-image: url("./assets/music-notation-tile.png");
     background-repeat: repeat;
-    opacity: 0.125;
+    opacity: 0.1;
     z-index: -1;
     pointer-events: none;
 }
