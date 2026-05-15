@@ -1,5 +1,5 @@
-import { useScaleDegreeStore as ScaleDegreeStore } from "../../../store";
-import type { IntervalToken } from "../../../utility/theoryData";
+import { useScaleDegreeStore as ScaleDegreeStore } from "../../store";
+import type { IntervalToken } from "../../utility/theoryData";
 
 interface ChordSelectorProps {
     interval: IntervalToken;

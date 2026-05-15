@@ -1,20 +1,30 @@
 import {
     useModeStore as ModeStore,
+    useShapeStore as ShapeStore,
     useScaleDegreeStore as ScaleDegreeStore,
     useDisplaySeventhStore as DisplaySeventhStore,
-} from "../../../store";
+} from "../../store";
+import { scales, chords } from "../../utility/theoryData";
 
 const ModeSelector = () => {
     const mode = ModeStore((state) => state.mode);
     const setMode = ModeStore((state) => state.setMode);
+    const setShape = ShapeStore((state) => state.setShape);
     const resetScaleDegree = ScaleDegreeStore((state) => state.reset);
     const setDisplaySeventh = DisplaySeventhStore(
         (state) => state.setDisplaySeventh,
     );
+
     const toggleMode = (): void => {
-        setMode(mode === "scale" ? "chord" : "scale");
+        const nextMode = mode === "scale" ? "chord" : "scale";
         resetScaleDegree();
         setDisplaySeventh(true);
+        if (nextMode === "scale") {
+            setShape(scales[0]);
+        } else {
+            setShape(chords[0]);
+        }
+        setMode(nextMode);
     };
 
     const scaleLED =
@@ -25,8 +35,8 @@ const ModeSelector = () => {
         mode === "chord"
             ? "bg-red-400 border border-red-600 shadow-md shadow-red-200"
             : "bg-red-900 border border-red-950 shadow-sm shadow-zinc-400";
-    const scaleToggle = "-translate-x-2.5 -rotate-180";
-    const chordToggle = "translate-x-2.5 rotate-180";
+    const scaleToggle = "-translate-x-2.5 -rotate-90";
+    const chordToggle = "translate-x-2.5 rotate-90";
     const scaleLabel = mode === "scale" ? "text-zinc-50" : "text-zinc-400";
     const chordLabel = mode === "chord" ? "text-zinc-50" : "text-zinc-400";
 
@@ -38,15 +48,17 @@ const ModeSelector = () => {
             >
                 Mode
             </label>
-            <div className="flex space-evenly">
-                <span
-                    className={`${scaleLabel} transition-all duration-250 ease-in-out`}
-                >
-                    Scale
-                </span>
-                <div
-                    className={`w-2 h-2 my-auto mx-2 rounded-full ${scaleLED} transition-all duration-150 ease-out`}
-                ></div>
+            <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center">
+                    <span
+                        className={`${scaleLabel} transition-all duration-250 ease-in-out`}
+                    >
+                        Scale
+                    </span>
+                    <div
+                        className={`w-3 h-3 my-auto mx-2 rounded-full ${scaleLED} transition-all duration-150 ease-out`}
+                    ></div>
+                </div>
                 <div
                     className="w-12 h-6 flex group flex-row items-center justify-center my-auto bg-linear-to-b from-zinc-500 via-zinc-700 to-zinc-400 cursor-pointer border-none rounded-full shadow-[-1px_-2px_3px_rgba(0,0,0,0.6),2px_2px_3px_rgba(255,255,255,0.2)]"
                     id="mode-selector"
@@ -56,14 +68,16 @@ const ModeSelector = () => {
                         className={`w-5 h-5 absolute ${mode === "scale" ? scaleToggle : chordToggle} rounded-full bg-conic/decreasing from-violet-400 via-lime-400 to-violet-400 transition-all duration-250 ease-in-out`}
                     ></div>
                 </div>
-                <div
-                    className={`w-2 h-2 my-auto mx-2 rounded-full ${chordLED} transition-all duration-150 ease-out`}
-                ></div>
-                <span
-                    className={`${chordLabel} transition-all duration-250 ease-in-out`}
-                >
-                    Chord
-                </span>
+                <div className="flex justify-center items-center">
+                    <div
+                        className={`w-3 h-3 my-auto mx-2 rounded-full ${chordLED} transition-all duration-150 ease-out`}
+                    ></div>
+                    <span
+                        className={`${chordLabel} transition-all duration-250 ease-in-out`}
+                    >
+                        Chord
+                    </span>
+                </div>
             </div>
         </div>
     );
