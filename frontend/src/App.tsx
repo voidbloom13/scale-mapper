@@ -1,10 +1,10 @@
 import "./App.css";
 import "./index.css";
 import InstrumentView from "./Components/InstrumentView/InstrumentView";
-import TheoryForm from "./Components/TheoryIntakeForm/TheoryInstakeForm";
+import TheoryForm from "./Components/TheoryForm/TheoryForm";
 import ChordSelector from "./Components/ChordSelector/ChordSelector";
-import TableGeneratorTest from "./Components/Test/TableGeneratorTest";
 import { useModeStore as ModeStore } from "./store";
+import TableGeneratorTest from "./Components/Test/TableGeneratorTest";
 
 function App() {
     const mode = ModeStore((state) => state.mode);

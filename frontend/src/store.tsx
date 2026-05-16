@@ -37,14 +37,23 @@ export const useShapeStore = create<ShapeState>()((set) => ({
     setShape: (shape) => set(() => ({ shape })),
 }));
 
-interface ShapeFilterState {
-    filter?: string;
-    setFilter: (filter: string) => void;
+interface FilterState {
+    filter: string[];
+    setFilter: (filter: string[]) => void;
+    toggleFilter: (tag: string) => void;
+    clearFilter: () => void;
 }
 
-export const useShapeFilterStore = create<ShapeFilterState>()((set) => ({
-    filter: "",
+export const useFilterStore = create<FilterState>()((set) => ({
+    filter: [],
     setFilter: (filter) => set(() => ({ filter })),
+    toggleFilter: (tag) =>
+        set((state) => ({
+            filter: state.filter.includes(tag)
+                ? state.filter.filter((t) => t !== tag)
+                : [...state.filter, tag],
+        })),
+    clearFilter: () => set(() => ({ filter: [] })),
 }));
 
 const initialScaleDegreeState = {

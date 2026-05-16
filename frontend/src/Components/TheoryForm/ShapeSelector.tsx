@@ -3,7 +3,7 @@ import type { Scale, Chord } from "../../utility/theoryData.ts";
 import {
     useModeStore as ModeStore,
     useShapeStore as ShapeStore,
-    useShapeFilterStore as FilterStore,
+    useFilterStore as FilterStore,
 } from "../../store";
 import { scales, chords } from "../../utility/theoryData.ts";
 import ShapeFilter from "./ShapeFilter.tsx";
@@ -15,23 +15,11 @@ const ShapeSelector = () => {
     const filter = FilterStore((state) => state.filter);
     let filteredShapeOptions: Scale[] | Chord[];
 
-    if (filter && filter.length > 0) {
-        if (mode === "scale") {
-            filteredShapeOptions = scales.filter((scale) =>
-                scale.tags?.includes(filter),
-            );
-        } else {
-            filteredShapeOptions = chords.filter((chord) =>
-                chord.tags?.includes(filter),
-            );
-        }
-    } else {
-        if (mode === "scale") {
-            filteredShapeOptions = scales;
-        } else {
-            filteredShapeOptions = chords;
-        }
-    }
+    const availableShapes = mode === "scale" ? scales : chords;
+
+    filteredShapeOptions = availableShapes.filter((s) =>
+        filter.every((f) => s.tags?.includes(f)),
+    );
 
     useEffect(() => {
         if (filteredShapeOptions.length > 0) {
@@ -63,7 +51,7 @@ const ShapeSelector = () => {
             <div className="flex justify-end gap-2">
                 <ShapeFilter />
                 <select
-                    className="w-8/10 h-10 md:w-64 p-1 rounded-sm font-orbitron font-bold tracking-wider bg-green-950 text-green-400 text-shadow-xs text-shadow-green-600 shadow-[inset_2px_2px_1px_rgba(0,0,0,0.8),2px_2px_2px_rgba(255,255,255,0.1)] truncate"
+                    className="w-64 h-10 p-1 rounded-sm font-orbitron font-bold tracking-wider bg-green-950 text-green-400 text-shadow-xs text-shadow-green-600 shadow-[inset_2px_2px_1px_rgba(0,0,0,0.8),2px_2px_2px_rgba(255,255,255,0.1)] truncate cursor-pointer"
                     id="shape-selector"
                     onChange={(e) => updateShape(e.target.value)}
                     value={shape.id}

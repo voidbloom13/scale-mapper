@@ -27,9 +27,9 @@ const ModeSelector = () => {
     };
 
     const activeButton: string =
-        "text-shadow-md shadow-[inset_2px_2px_1px_rgba(0,0,0,0.8),2px_2px_2px_rgba(255,255,255,0.1)] from-zinc-700 to-zinc-800";
+        "text-shadow-md shadow-[inset_2px_2px_3px_rgba(0,0,0,0.8),inset_-2px_-2px_3px_rgba(255,255,255,0.2)] from-zinc-700 to-zinc-800";
     const inactiveButton: string =
-        "text-zinc-400 shadow-[inset_2px_2px_1px_rgba(255,255,255,0.1),2px_2px_2px_rgba(0,0,0,0.8)] from-zinc-600 to-zinc-700";
+        "text-zinc-400 shadow-[inset_2px_2px_3px_rgba(255,255,255,0.3),inset_-2px_-2px_3px_rgba(0,0,0,0.8),3px_3px_6px_rgba(0,0,0,0.8)] from-zinc-600 to-zinc-700";
 
     return (
         <div className="flex flex-row gap-4 items-center justify-between md:justify-start w-full">

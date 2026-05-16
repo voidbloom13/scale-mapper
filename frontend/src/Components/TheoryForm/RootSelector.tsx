@@ -14,7 +14,7 @@ const RootSelector = () => {
                 Root
             </label>
             <select
-                className="p-1 h-10 rounded-md font-orbitron font-bold tracking-wider bg-amber-950 text-amber-400 text-shadow-xs text-shadow-amber-600 shadow-[inset_2px_2px_1px_rgba(0,0,0,0.8),2px_2px_2px_rgba(255,255,255,0.1)]"
+                className="p-1 h-10 rounded-md font-orbitron font-bold tracking-wider bg-amber-950 text-amber-400 text-shadow-xs text-shadow-amber-600 shadow-[inset_2px_2px_1px_rgba(0,0,0,0.8),2px_2px_2px_rgba(255,255,255,0.1)] cursor-pointer"
                 id="root-selector"
                 defaultValue={root}
                 onChange={(e) => setRoot(e.target.value)}
