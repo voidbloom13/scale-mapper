@@ -11,14 +11,14 @@ const ShapeFilter = () => {
     const mode = ModeStore((state) => state.mode);
     const filter = FilterStore((state) => state.filter);
     const toggleFilter = FilterStore((state) => state.toggleFilter);
-    const clearFilter = FilterStore((state) => state.clearFilter);
+    const resetFilter = FilterStore((state) => state.reset);
 
     const [isOpen, setIsOpen] = useState(false);
 
     // Clear filter when mode changes
     useEffect(() => {
-        clearFilter();
-    }, [mode, clearFilter]);
+        resetFilter();
+    }, [mode, resetFilter]);
 
     const availableShapes = mode === "scale" ? scales : chords;
     const currentTags = mode === "scale" ? scaleTags : chordTags;
@@ -65,7 +65,7 @@ const ShapeFilter = () => {
             )}
 
             <dialog
-                className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-[450px] max-h-[85vh] overflow-y-auto flex flex-col bg-zinc-800 border border-zinc-600 rounded-xl shadow-2xl p-6 text-zinc-200 ${isOpen ? "" : "hidden"}`}
+                className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-112.5 max-h-[85vh] overflow-y-auto flex flex-col bg-zinc-800 border border-zinc-600 rounded-xl shadow-2xl p-6 text-zinc-200 ${isOpen ? "" : "hidden"}`}
             >
                 <div className="flex justify-between items-center mb-4 border-b border-zinc-700 pb-2">
                     <h3 className="text-xl font-bold font-serif tracking-wide">
@@ -105,7 +105,7 @@ const ShapeFilter = () => {
 
                 <div
                     className={`px-4 py-2 mb-4 capitalize cursor-pointer w-full border border-zinc-600 rounded-md text-center transition-colors ${filter.length > 0 ? "hover:bg-zinc-700" : "opacity-50 cursor-not-allowed"}`}
-                    onClick={() => filter.length > 0 && clearFilter()}
+                    onClick={() => filter.length > 0 && resetFilter()}
                 >
                     Clear All
                 </div>

@@ -9,7 +9,7 @@ import TableGeneratorTest from "./Components/Test/TableGeneratorTest";
 function App() {
     const mode = ModeStore((state) => state.mode);
     return (
-        <div className="py-6 flex flex-col gap-4">
+        <div className="py-6 flex flex-col items-center gap-4">
             <InstrumentView />
             <TheoryForm />
             {mode === "scale" && <ChordSelector />}
