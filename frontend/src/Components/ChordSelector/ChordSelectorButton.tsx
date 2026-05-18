@@ -1,4 +1,4 @@
-import { useScaleDegreeStore as ScaleDegreeStore } from "../../store";
+import { useTheoryStore as TheoryStore } from "../../store";
 import type { IntervalToken } from "../../utility/theoryData";
 
 interface ChordSelectorProps {
@@ -9,8 +9,8 @@ interface ChordSelectorProps {
 }
 
 const ChordSelectorButton = (props: ChordSelectorProps) => {
-    const degree = ScaleDegreeStore((state) => state.degree);
-    const setDegree = ScaleDegreeStore((state) => state.setDegree);
+    const degree = TheoryStore((state) => state.degree);
+    const setDegree = TheoryStore((state) => state.setDegree);
     const buttonStyle: string =
         props.degree + 1 === degree ? "text-zinc-50" : "text-zinc-400";
     const ledStyle: string =

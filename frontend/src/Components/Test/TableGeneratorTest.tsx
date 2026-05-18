@@ -3,19 +3,16 @@ import {
     type ScaleNote,
 } from "../../utility/theoryEngine";
 import {
-    useRootStore as RootStore,
-    useModeStore as ModeStore,
-    useShapeStore as ShapeStore,
-    useScaleDegreeStore as ScaleDegreeStore,
-    useDisplaySeventhStore as DisplaySeventhStore,
+    useFilterStore as FilterStore,
+    useTheoryStore as TheoryStore,
 } from "../../store";
 
 const TableGeneratorTest = () => {
-    const root = RootStore((state) => state.root);
-    const mode = ModeStore((state) => state.mode);
-    const shape = ShapeStore((state) => state.shape);
-    const degree = ScaleDegreeStore((state) => state.degree);
-    const displaySeventh = DisplaySeventhStore((state) => state.displaySeventh);
+    const root = TheoryStore((state) => state.root);
+    const mode = FilterStore((state) => state.mode);
+    const shape = TheoryStore((state) => state.shape);
+    const degree = TheoryStore((state) => state.degree);
+    const displaySeventh = TheoryStore((state) => state.displaySeventh);
 
     const intervalsAndNotes = generateIntervalsAndNotes(
         root,

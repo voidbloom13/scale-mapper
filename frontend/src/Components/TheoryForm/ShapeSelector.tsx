@@ -1,23 +1,21 @@
 import { useEffect } from "react";
 import type { Scale, Chord } from "../../utility/theoryData.ts";
 import {
-    useModeStore as ModeStore,
-    useShapeStore as ShapeStore,
     useFilterStore as FilterStore,
+    useTheoryStore as TheoryStore,
 } from "../../store";
 import { scales, chords } from "../../utility/theoryData.ts";
 import ShapeFilter from "./ShapeFilter.tsx";
 
 const ShapeSelector = () => {
-    const mode = ModeStore((state) => state.mode);
-    const shape = ShapeStore((state) => state.shape);
-    const setShape = ShapeStore((state) => state.setShape);
+    const mode = FilterStore((state) => state.mode);
+    const shape = TheoryStore((state) => state.shape);
+    const setShape = TheoryStore((state) => state.setShape);
     const filter = FilterStore((state) => state.filter);
-    let filteredShapeOptions: Scale[] | Chord[];
 
     const availableShapes = mode === "scale" ? scales : chords;
 
-    filteredShapeOptions = availableShapes.filter((s) =>
+    const filteredShapeOptions = availableShapes.filter((s) =>
         filter.every((f) => s.tags?.includes(f)),
     );
 

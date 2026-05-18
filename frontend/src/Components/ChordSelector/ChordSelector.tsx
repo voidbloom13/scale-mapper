@@ -1,18 +1,13 @@
-import {
-    useShapeStore as ShapeStore,
-    useDisplaySeventhStore as DisplaySeventhStore,
-} from "../../store";
+import { useTheoryStore as TheoryStore } from "../../store";
 import type { IntervalToken, Scale } from "../../utility/theoryData";
 import { generateChordNotation } from "../../utility/theoryEngine";
 import ChordSelectorButton from "./ChordSelectorButton";
 import brushedMetalOverlay from "../../../src/assets/brushed-metal-overlay.png";
 
 const ChordSelector = () => {
-    const shape = ShapeStore((state) => state.shape) as Scale;
-    const displaySeventh = DisplaySeventhStore((state) => state.displaySeventh);
-    const setDisplaySeventh = DisplaySeventhStore(
-        (state) => state.setDisplaySeventh,
-    );
+    const shape = TheoryStore((state) => state.shape) as Scale;
+    const displaySeventh = TheoryStore((state) => state.displaySeventh);
+    const setDisplaySeventh = TheoryStore((state) => state.setDisplaySeventh);
     const buttonStyle: string = displaySeventh
         ? "text-green-400 text-shadow-md text-shadow-green-400 shadow-[inset_2px_2px_3px_rgba(0,0,0,0.8),inset_-2px_-3px_2px_rgba(255,255,255,0.2)] from-zinc-700 to-zinc-800"
         : "text-zinc-400 shadow-[inset_2px_2px_3px_rgba(255,255,255,0.2),inset_-2px_-2px_3px_rgba(0,0,0,0.8)] from-zinc-600 to-zinc-700";
@@ -22,7 +17,7 @@ const ChordSelector = () => {
     );
 
     return (
-        <div className="relative isolate z-10 w-8/10 max-w-3xl mx-auto p-3 bg-linear-to-b from-zinc-600 via-zinc-700 to-zinc-800 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.8)] border-t border-zinc-500/30 rounded-lg flex flex-col gap-3 justify-center align-middle">
+        <div className="relative isolate z-10 w-8/10 sm:max-w-lg xl:max-w-3xl mx-auto p-3 bg-linear-to-b from-zinc-600 via-zinc-700 to-zinc-800 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.8)] border-t border-zinc-500/30 rounded-lg flex flex-col gap-3 justify-center align-middle">
             <div
                 className="absolute inset-0 pointer-events-none rounded-lg z-0"
                 style={{

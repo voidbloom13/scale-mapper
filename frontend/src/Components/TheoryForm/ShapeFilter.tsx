@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
-import {
-    useModeStore as ModeStore,
-    useFilterStore as FilterStore,
-} from "../../store";
+import { useFilterStore as FilterStore } from "../../store";
 import { scaleTags, chordTags, scales, chords } from "../../utility/theoryData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons/faFilter";
 
 const ShapeFilter = () => {
-    const mode = ModeStore((state) => state.mode);
+    const mode = FilterStore((state) => state.mode);
     const filter = FilterStore((state) => state.filter);
     const toggleFilter = FilterStore((state) => state.toggleFilter);
-    const resetFilter = FilterStore((state) => state.reset);
+    const resetFilter = FilterStore((state) => state.resetFilter);
 
     const [isOpen, setIsOpen] = useState(false);
 

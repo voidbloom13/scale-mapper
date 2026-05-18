@@ -29,7 +29,9 @@ const InstrumentForm = () => {
                 {!instrumentVariant.id.includes("keyboard") && (
                     <TuningSelector />
                 )}
-                <ViewportSelector />
+                {!instrumentVariant.id.includes("keyboard") && (
+                    <ViewportSelector />
+                )}
             </div>
         </div>
     );

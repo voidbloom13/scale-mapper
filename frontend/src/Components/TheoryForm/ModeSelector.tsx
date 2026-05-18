@@ -1,17 +1,15 @@
 import {
-    useModeStore as ModeStore,
-    useShapeStore as ShapeStore,
-    useScaleDegreeStore as ScaleDegreeStore,
-    useDisplaySeventhStore as DisplaySeventhStore,
+    useFilterStore as FilterStore,
+    useTheoryStore as TheoryStore,
 } from "../../store";
 import { scales, chords } from "../../utility/theoryData";
 
 const ModeSelector = () => {
-    const mode = ModeStore((state) => state.mode);
-    const setMode = ModeStore((state) => state.setMode);
-    const setShape = ShapeStore((state) => state.setShape);
-    const resetScaleDegree = ScaleDegreeStore((state) => state.reset);
-    const setDisplaySeventh = DisplaySeventhStore(
+    const mode = FilterStore((state) => state.mode);
+    const setMode = FilterStore((state) => state.setMode);
+    const setShape = TheoryStore((state) => state.setShape);
+    const resetScaleDegree = TheoryStore((state) => state.resetDegree);
+    const setDisplaySeventh = TheoryStore(
         (state) => state.setDisplaySeventh,
     );
 

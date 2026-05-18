@@ -22,78 +22,66 @@ import {
 } from "./utility/instrumentData";
 import { create } from "zustand";
 
-interface RootState {
+/**
+ * THEORY STORE
+ * Manages musical state: root note, scale/chord shape, scale degree, and display preferences.
+ */
+interface TheoryState {
     root: NoteToken;
-    setRoot: (root: NoteToken) => void;
-}
-
-export const useRootStore = create<RootState>()((set) => ({
-    root: "C",
-    setRoot: (root) => set(() => ({ root })),
-}));
-
-export type Mode = "scale" | "chord";
-interface ModeState {
-    mode: Mode;
-    setMode: (mode: Mode) => void;
-}
-
-export const useModeStore = create<ModeState>()((set) => ({
-    mode: "scale",
-    setMode: (mode) => set(() => ({ mode })),
-}));
-
-interface ShapeState {
     shape: Scale | Chord;
+    degree: number;
+    displaySeventh: boolean;
+    setRoot: (root: NoteToken) => void;
     setShape: (shape: Scale | Chord) => void;
+    setDegree: (degree: number) => void;
+    setDisplaySeventh: (displaySeventh: boolean) => void;
+    resetDegree: () => void;
 }
 
-export const useShapeStore = create<ShapeState>()((set) => ({
+export const useTheoryStore = create<TheoryState>()((set) => ({
+    root: "C",
     shape: scales[0],
-    setShape: (shape) => set(() => ({ shape })),
+    degree: 1,
+    displaySeventh: true,
+    setRoot: (root) => set({ root }),
+    setShape: (shape) => set({ shape }),
+    setDegree: (degree) => set({ degree }),
+    setDisplaySeventh: (displaySeventh) => set({ displaySeventh }),
+    resetDegree: () => set({ degree: 1 }),
 }));
 
+/**
+ * FILTER STORE
+ * Manages operational mode (scale/chord) and tag filters for shapes.
+ */
+export type Mode = "scale" | "chord";
 interface FilterState {
+    mode: Mode;
     filter: string[];
+    setMode: (mode: Mode) => void;
     setFilter: (filter: string[]) => void;
     toggleFilter: (tag: string) => void;
-    reset: () => void;
+    resetFilter: () => void;
 }
 
 export const useFilterStore = create<FilterState>()((set) => ({
+    mode: "scale",
     filter: [],
-    setFilter: (filter) => set(() => ({ filter })),
+    setMode: (mode) => set({ mode }),
+    setFilter: (filter) => set({ filter }),
     toggleFilter: (tag) =>
         set((state) => ({
             filter: state.filter.includes(tag)
                 ? state.filter.filter((t) => t !== tag)
                 : [...state.filter, tag],
         })),
-    reset: () => set(() => ({ filter: [] })),
+    resetFilter: () => set({ filter: [] }),
 }));
 
-interface ScaleDegreeState {
-    degree: number;
-    setDegree: (degree: number) => void;
-    reset: () => void;
-}
-
-export const useScaleDegreeStore = create<ScaleDegreeState>()((set) => ({
-    degree: 1,
-    setDegree: (degree: number) => set(() => ({ degree })),
-    reset: () => set({ degree: 1 }),
-}));
-
-interface DisplaySeventhState {
-    displaySeventh: boolean;
-    setDisplaySeventh: (displaySeventh: boolean) => void;
-}
-
-export const useDisplaySeventhStore = create<DisplaySeventhState>()((set) => ({
-    displaySeventh: true,
-    setDisplaySeventh: (displaySeventh) => set(() => ({ displaySeventh })),
-}));
-
+/**
+ * INSTRUMENT STORE
+ * Manages physical instrument state: family, variant, tuning, and viewport.
+ */
 interface InstrumentState {
     instrumentFamily: InstrumentFamily;
     instrumentVariant:
@@ -146,7 +134,7 @@ export const useInstrumentStore = create<InstrumentState>()((set) => ({
             case "keyboard":
                 variant = keyboardVariants[0];
                 tuning = null;
-                view = keyboardViewOptions[1];
+                view = variant.keyCount;
                 break;
             default:
                 throw new Error(
@@ -196,7 +184,7 @@ export const useInstrumentStore = create<InstrumentState>()((set) => ({
                     (i) => i.id === instrumentVariant,
                 ) as KeyboardVariantDefinition;
                 tuning = null;
-                view = keyboardViewOptions[1];
+                view = instrumentVariantDefinition.keyCount;
                 break;
             default:
                 throw new Error(
@@ -213,7 +201,7 @@ export const useInstrumentStore = create<InstrumentState>()((set) => ({
 
     setTuning: (tuningID: TuningDefinition["id"]) => {
         const tuning = tunings.find((t) => t.id === tuningID);
-        let view: (typeof stringViewOptions)[number] = stringViewOptions[1];
+        const view = stringViewOptions[1];
         set({ tuning: tuning, view: view });
     },
 

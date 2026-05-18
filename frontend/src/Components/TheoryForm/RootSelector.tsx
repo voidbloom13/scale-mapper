@@ -1,10 +1,10 @@
 import { noteMap } from "../../utility/theoryData";
 import type { NoteToken } from "../../utility/theoryData";
-import { useRootStore as RootStore } from "../../store";
+import { useTheoryStore as TheoryStore } from "../../store";
 
 const RootSelector = () => {
-    const root = RootStore((state) => state.root);
-    const setRoot = RootStore((state) => state.setRoot);
+    const root = TheoryStore((state) => state.root);
+    const setRoot = TheoryStore((state) => state.setRoot);
     return (
         <div className="flex flex-row md:flex-row-reverse gap-4 items-center justify-between md:justify-start w-full">
             <label

@@ -17,7 +17,7 @@ const ViewportSelector = () => {
     }
 
     return (
-        <label className="px-3 py-1 flex items-center justify-between gap-3 border-b border-r rounded-br-md border-zinc-600 bg-black text-white">
+        <label className="px-3 py-1 flex items-center justify-between gap-3 border-b border-r border-zinc-600 bg-black text-white">
             <span>{instrumentFamily === "keyboard" ? "Keys" : "Frets"}</span>
             <select
                 value={view}
